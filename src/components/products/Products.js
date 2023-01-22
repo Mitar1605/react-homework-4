@@ -1,29 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
+import { useContext } from 'react'
 import {AiOutlineHeart} from 'react-icons/ai'
 import {BsFillTrashFill} from 'react-icons/bs'
+import { Context } from '../../App'
 import './Products.css'
 
-export default function Products({inputValue}) {
+export default function Products() {
 
-    const [data, setData] = useState([])
-    const [searchResult, setSearchresult] = useState([])
-
-    async function dummyjson () {
-        await fetch("https://dummyjson.com/products")
-        .then((res) => res.json())
-        .then((data) => {
-            setData(data.products)
-            setSearchresult(data.products)
-        })
-    }
-
-    useEffect(() => {
-        dummyjson()
-    }, [])
-
-    useEffect(() => {
-        setData(searchResult.filter(item => item.title.toLowerCase().includes(inputValue.toLowerCase())))
-    }, [inputValue])
+    const {data, setData} = useContext(Context)
 
   return (
     <div className='main-products'>

@@ -1,10 +1,32 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Products from './components/products/Products';
+import { createContext } from 'react';
+
+export const Context = createContext()
 
 function App() {
 
   const [inputValue, setInputValue] = useState('')
+  const [data, setData] = useState([])
+  const [searchResult, setSearchresult] = useState([])
+
+  async function dummyjson () {
+      await fetch("https://dummyjson.com/products")
+      .then((res) => res.json())
+      .then((data) => {
+          setData(data.products)
+          setSearchresult(data.products)
+      })
+  }
+  
+  useEffect(() => {
+      dummyjson()
+  }, [])
+
+  useEffect(() => {
+      setData(searchResult.filter(item => item.title.toLowerCase().includes(inputValue.toLowerCase())))
+  }, [inputValue])
 
   let timeOut;
 
@@ -24,7 +46,9 @@ function App() {
         }}/>
       </div>
       <div className="products-div">
-        <Products inputValue={inputValue} />
+        <Context.Provider value={{data, setData}}>  
+          <Products/>
+        </Context.Provider>
       </div>
     </div>
   );
