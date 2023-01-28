@@ -7,7 +7,7 @@ import './Products.css'
 
 export default function Products() {
 
-    const {data, setData} = useContext(Context)
+    const {data, setData, addToCart} = useContext(Context)
 
   return (
     <div className='main-products'>
@@ -27,7 +27,7 @@ export default function Products() {
                         </div>
                         <div className="product-btns">
                             <button><AiOutlineHeart /></button>
-                            <button>Add to cart</button>
+                            <button onClick={() => addToCart(product)}>Add to cart</button>
                             <button onClick={() => setData(data.filter((el) => el.id !== id))}><BsFillTrashFill /></button>
                         </div>
                         <div className="product-img">
